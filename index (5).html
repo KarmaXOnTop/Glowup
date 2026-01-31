@@ -1,0 +1,2308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RéussitePro 3ème - Le Site Éducatif Premium</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --secondary: #ec4899;
+            --accent: #10b981;
+            --warning: #f59e0b;
+            --bg-light: #f8fafc;
+            --bg-dark: #0f172a;
+            --card-light: rgba(255, 255, 255, 0.7);
+            --card-dark: rgba(30, 41, 59, 0.7);
+            --text-light: #1e293b;
+            --text-dark: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        body.dark {
+            background: var(--bg-dark);
+            color: var(--text-dark);
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: var(--card-light);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        body.dark .glass {
+            background: var(--card-dark);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Neumorphism */
+        .neumorphic {
+            background: linear-gradient(145deg, #ffffff, #e6e6e6);
+            box-shadow: 5px 5px 15px #d1d1d1, -5px -5px 15px #ffffff;
+        }
+
+        body.dark .neumorphic {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            box-shadow: 5px 5px 15px #0a1120, -5px -5px 15px #142238;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounce-in {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes counter {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+        .animate-slide-up { animation: slide-up 0.6s ease-out forwards; }
+        .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }
+        .animate-bounce-in { animation: bounce-in 0.6s ease-out forwards; }
+
+        /* Gradient Background */
+        .gradient-bg {
+            background: linear-gradient(-45deg, #6366f1, #ec4899, #10b981, #6366f1);
+            background-size: 400% 400%;
+            animation: gradient-shift 15s ease infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--primary), var(--secondary));
+            border-radius: 5px;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 80%;
+        }
+
+        /* Hero Section */
+        .hero-gradient {
+            background: radial-gradient(ellipse at top, rgba(99, 102, 241, 0.2), transparent),
+                        radial-gradient(ellipse at bottom, rgba(236, 72, 153, 0.1), transparent);
+        }
+
+        body.dark .hero-gradient {
+            background: radial-gradient(ellipse at top, rgba(99, 102, 241, 0.3), transparent),
+                        radial-gradient(ellipse at bottom, rgba(236, 72, 153, 0.2), transparent);
+        }
+
+        /* Cards */
+        .subject-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        .subject-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 1rem 1rem 0 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .subject-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            height: 8px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+            transition: width 1s ease-out;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary);
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Tabs */
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 50px;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        /* Quiz Styles */
+        .quiz-option {
+            padding: 1rem 1.5rem;
+            border: 2px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .quiz-option.correct {
+            border-color: var(--accent);
+            background: rgba(16, 185, 129, 0.2);
+        }
+
+        .quiz-option.incorrect {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        /* Difficulty Badges */
+        .badge-easy {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .badge-medium {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+        }
+
+        .badge-hard {
+            background: linear-gradient(135deg, #ef4444, #f87171);
+        }
+
+        /* Favorite Star */
+        .favorite-btn {
+            transition: all 0.3s ease;
+        }
+
+        .favorite-btn.active {
+            color: #fbbf24;
+            transform: scale(1.2);
+        }
+
+        /* Search */
+        .search-box {
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus-within {
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Modal */
+        .modal-backdrop {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Page transitions */
+        .page {
+            display: none;
+            opacity: 0;
+        }
+
+        .page.active {
+            display: block;
+            animation: fade-in 0.4s ease forwards;
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        /* Timer */
+        .timer-circle {
+            stroke-dasharray: 283;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 1s linear;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.5rem 1rem;
+            background: var(--bg-dark);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .tooltip:hover::after {
+            opacity: 1;
+            bottom: calc(100% + 10px);
+        }
+
+        /* Decorative elements */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        body.dark .blob {
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="glass py-4 px-6">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center gap-3 cursor-pointer" onclick="showPage('home')">
+                <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center">
+                    <span class="text-white font-bold text-xl">R</span>
+                </div>
+                <span class="font-bold text-xl bg-gradient-to-r from-indigo-500 to-pink-500 bg-clip-text text-transparent">
+                    RéussitePro 3ᵉ
+                </span>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center gap-2">
+                <a href="#" class="nav-link active" data-page="home">Accueil</a>
+                <a href="#" class="nav-link" data-page="subjects">Matières</a>
+                <a href="#" class="nav-link" data-page="methods">Méthodes</a>
+                <a href="#" class="nav-link" data-page="brevet">Brevet</a>
+                <a href="#" class="nav-link" data-page="revision">Révisions</a>
+                <a href="#" class="nav-link" data-page="about">À propos</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-4">
+                <!-- Search -->
+                <div class="hidden lg:flex search-box glass rounded-full px-4 py-2 items-center gap-2">
+                    <svg class="w-5 h-5 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Rechercher..." 
+                           class="bg-transparent border-none outline-none w-40 text-sm"
+                           oninput="handleSearch(this.value)">
+                </div>
+
+                <!-- Dark Mode Toggle -->
+                <button id="themeToggle" class="w-10 h-10 rounded-full glass flex items-center justify-center transition-all hover:scale-110">
+                    <span id="sunIcon">☀️</span>
+                    <span id="moonIcon" class="hidden">🌙</span>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="md:hidden w-10 h-10 rounded-full glass flex items-center justify-center">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 w-64 h-full glass z-50 p-6">
+        <button onclick="closeMobileMenu()" class="absolute top-4 right-4 text-2xl">&times;</button>
+        <nav class="mt-12 flex flex-col gap-4">
+            <a href="#" class="nav-link block" data-page="home" onclick="showPage('home'); closeMobileMenu()">🏠 Accueil</a>
+            <a href="#" class="nav-link block" data-page="subjects" onclick="showPage('subjects'); closeMobileMenu()">📚 Matières</a>
+            <a href="#" class="nav-link block" data-page="methods" onclick="showPage('methods'); closeMobileMenu()">📝 Méthodes</a>
+            <a href="#" class="nav-link block" data-page="brevet" onclick="showPage('brevet'); closeMobileMenu()">🎯 Brevet</a>
+            <a href="#" class="nav-link block" data-page="revision" onclick="showPage('revision'); closeMobileMenu()">📖 Révisions</a>
+            <a href="#" class="nav-link block" data-page="about" onclick="showPage('about'); closeMobileMenu()">ℹ️ À propos</a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="pt-20">
+        <!-- HOME PAGE -->
+        <div id="page-home" class="page active">
+            <!-- Hero Section -->
+            <section class="hero-gradient min-h-screen flex items-center relative overflow-hidden">
+                <!-- Decorative Blobs -->
+                <div class="blob w-96 h-96 bg-indigo-500 top-20 -left-48 animate-float"></div>
+                <div class="blob w-72 h-72 bg-pink-500 bottom-20 -right-36 animate-float" style="animation-delay: 2s;"></div>
+                <div class="blob w-64 h-64 bg-green-500 top-1/2 left-1/2 animate-float" style="animation-delay: 4s;"></div>
+
+                <div class="max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="animate-slide-up">
+                        <span class="inline-block px-4 py-2 rounded-full glass text-sm font-medium mb-6">
+                            🎓 Préparation Brevet 2025
+                        </span>
+                        <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
+                            Réussis ton 
+                            <span class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                                Brevet
+                            </span>
+                            <br>avec excellence
+                        </h1>
+                        <p class="text-lg opacity-80 mb-8 leading-relaxed">
+                            La plateforme ultime pour les élèves de 3ᵉ. Cours complets, exercices interactifs, 
+                            méthodes efficaces et conseils d'experts pour décrocher la mention ! 🏆
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <button class="btn-primary" onclick="showPage('subjects')">
+                                🚀 Commencer à réviser
+                            </button>
+                            <button class="btn-secondary" onclick="showPage('brevet')">
+                                📋 Voir le programme
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Hero Illustration -->
+                    <div class="hidden lg:flex justify-center animate-float">
+                        <div class="relative">
+                            <div class="w-80 h-80 rounded-3xl gradient-bg opacity-20 absolute -inset-4"></div>
+                            <div class="glass rounded-3xl p-8 relative">
+                                <div class="text-6xl mb-4 text-center">📚</div>
+                                <div class="space-y-4">
+                                    <div class="flex items-center gap-3 glass rounded-xl p-3">
+                                        <span class="text-2xl">🧮</span>
+                                        <div>
+                                            <div class="font-semibold">Mathématiques</div>
+                                            <div class="progress-bar w-32 mt-1">
+                                                <div class="progress-fill" style="width: 75%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3 glass rounded-xl p-3">
+                                        <span class="text-2xl">📖</span>
+                                        <div>
+                                            <div class="font-semibold">Français</div>
+                                            <div class="progress-bar w-32 mt-1">
+                                                <div class="progress-fill" style="width: 60%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3 glass rounded-xl p-3">
+                                        <span class="text-2xl">🌍</span>
+                                        <div>
+                                            <div class="font-semibold">Histoire-Géo</div>
+                                            <div class="progress-bar w-32 mt-1">
+                                                <div class="progress-fill" style="width: 45%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stats Section -->
+            <section class="py-20 px-6">
+                <div class="max-w-7xl mx-auto">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div class="glass rounded-2xl p-6 text-center reveal">
+                            <div class="text-4xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent counter" data-target="95">0</div>
+                            <div class="text-sm opacity-70 mt-2">% de réussite</div>
+                        </div>
+                        <div class="glass rounded-2xl p-6 text-center reveal" style="animation-delay: 0.1s;">
+                            <div class="text-4xl font-bold bg-gradient-to-r from-pink-500 to-red-500 bg-clip-text text-transparent counter" data-target="500">0</div>
+                            <div class="text-sm opacity-70 mt-2">Exercices disponibles</div>
+                        </div>
+                        <div class="glass rounded-2xl p-6 text-center reveal" style="animation-delay: 0.2s;">
+                            <div class="text-4xl font-bold bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent counter" data-target="50">0</div>
+                            <div class="text-sm opacity-70 mt-2">Chapitres complets</div>
+                        </div>
+                        <div class="glass rounded-2xl p-6 text-center reveal" style="animation-delay: 0.3s;">
+                            <div class="text-4xl font-bold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent counter" data-target="10">0</div>
+                            <div class="text-sm opacity-70 mt-2">Matières couvertes</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Subjects Preview -->
+            <section class="py-20 px-6 hero-gradient">
+                <div class="max-w-7xl mx-auto">
+                    <div class="text-center mb-12 reveal">
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4">Toutes les matières du Brevet</h2>
+                        <p class="opacity-70 max-w-2xl mx-auto">
+                            Explore nos cours complets et interactifs pour chaque matière du programme de 3ᵉ
+                        </p>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="subjectsPreview">
+                        <!-- Generated by JS -->
+                    </div>
+
+                    <div class="text-center mt-12">
+                        <button class="btn-primary" onclick="showPage('subjects')">
+                            Voir toutes les matières →
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features -->
+            <section class="py-20 px-6">
+                <div class="max-w-7xl mx-auto">
+                    <div class="text-center mb-12 reveal">
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4">Pourquoi choisir RéussitePro ?</h2>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="glass rounded-2xl p-8 reveal hover:scale-105 transition-transform">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-3xl mb-6">
+                                📚
+                            </div>
+                            <h3 class="text-xl font-bold mb-3">Cours structurés</h3>
+                            <p class="opacity-70">Des cours clairs, organisés par chapitre avec des exemples concrets et des illustrations.</p>
+                        </div>
+                        <div class="glass rounded-2xl p-8 reveal hover:scale-105 transition-transform" style="animation-delay: 0.1s;">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-500 to-red-500 flex items-center justify-center text-3xl mb-6">
+                                🎮
+                            </div>
+                            <h3 class="text-xl font-bold mb-3">Quiz interactifs</h3>
+                            <p class="opacity-70">Teste tes connaissances avec des quiz chronométrés et obtiens un feedback instantané.</p>
+                        </div>
+                        <div class="glass rounded-2xl p-8 reveal hover:scale-105 transition-transform" style="animation-delay: 0.2s;">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center text-3xl mb-6">
+                                📈
+                            </div>
+                            <h3 class="text-xl font-bold mb-3">Suivi de progression</h3>
+                            <p class="opacity-70">Visualise ta progression et identifie les points à améliorer avant le Brevet.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- SUBJECTS PAGE -->
+        <div id="page-subjects" class="page">
+            <section class="py-24 px-6 min-h-screen">
+                <div class="max-w-7xl mx-auto">
+                    <div class="text-center mb-8">
+                        <h1 class="text-4xl font-bold mb-4">📚 Toutes les Matières</h1>
+                        <p class="opacity-70">Clique sur une matière pour accéder aux cours et exercices</p>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="flex flex-wrap justify-center gap-4 mb-12">
+                        <button class="tab-btn active" onclick="filterSubjects('all', this)">Toutes</button>
+                        <button class="tab-btn" onclick="filterSubjects('sciences', this)">🔬 Sciences</button>
+                        <button class="tab-btn" onclick="filterSubjects('lettres', this)">📖 Lettres</button>
+                        <button class="tab-btn" onclick="filterSubjects('langues', this)">🌍 Langues</button>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="allSubjects">
+                        <!-- Generated by JS -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- SUBJECT DETAIL PAGE -->
+        <div id="page-subject-detail" class="page">
+            <section class="py-24 px-6 min-h-screen">
+                <div class="max-w-7xl mx-auto">
+                    <button onclick="showPage('subjects')" class="mb-6 flex items-center gap-2 opacity-70 hover:opacity-100 transition">
+                        ← Retour aux matières
+                    </button>
+
+                    <div id="subjectDetailContent">
+                        <!-- Generated by JS -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- METHODS PAGE -->
+        <div id="page-methods" class="page">
+            <section class="py-24 px-6 min-h-screen">
+                <div class="max-w-7xl mx-auto">
+                    <div class="text-center mb-12">
+                        <h1 class="text-4xl font-bold mb-4">📝 Méthodes & Conseils</h1>
+                        <p class="opacity-70 max-w-2xl mx-auto">
+                            Découvre les meilleures techniques pour apprendre efficacement et réussir tes examens
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- Method Cards -->
+                        <div class="glass rounded-2xl p-8">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-2xl">
+                                    🧠
+                                </div>
+                                <h3 class="text-xl font-bold">La technique Pomodoro</h3>
+                            </div>
+                            <p class="opacity-80 mb-4">
+                                Travaille par sessions de 25 minutes suivies de pauses de 5 minutes. 
+                                Après 4 sessions, prends une pause de 15-30 minutes.
+                            </p>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-center gap-2">✅ Améliore la concentration</li>
+                                <li class="flex items-center gap-2">✅ Réduit la fatigue mentale</li>
+                                <li class="flex items-center gap-2">✅ Augmente la productivité</li>
+                            </ul>
+                        </div>
+
+                        <div class="glass rounded-2xl p-8">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-pink-500 to-red-500 flex items-center justify-center text-2xl">
+                                    📋
+                                </div>
+                                <h3 class="text-xl font-bold">Les fiches de révision</h3>
+                            </div>
+                            <p class="opacity-80 mb-4">
+                                Crée des fiches synthétiques avec les points essentiels de chaque chapitre. 
+                                Utilise des couleurs et des schémas.
+                            </p>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-center gap-2">✅ Synthétise l'information</li>
+                                <li class="flex items-center gap-2">✅ Facilite la mémorisation</li>
+                                <li class="flex items-center gap-2">✅ Révision rapide avant l'examen</li>
+                            </ul>
+                        </div>
+
+                        <div class="glass rounded-2xl p-8">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center text-2xl">
+                                    🔄
+                                </div>
+                                <h3 class="text-xl font-bold">La répétition espacée</h3>
+                            </div>
+                            <p class="opacity-80 mb-4">
+                                Revois les informations à intervalles croissants : 1 jour, 3 jours, 1 semaine, 2 semaines, 1 mois.
+                            </p>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-center gap-2">✅ Mémorisation long terme</li>
+                                <li class="flex items-center gap-2">✅ Évite le bachotage</li>
+                                <li class="flex items-center gap-2">✅ Optimise le temps d'étude</li>
+                            </ul>
+                        </div>
+
+                        <div class="glass rounded-2xl p-8">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-2xl">
+                                    💬
+                                </div>
+                                <h3 class="text-xl font-bold">Enseigner pour apprendre</h3>
+                            </div>
+                            <p class="opacity-80 mb-4">
+                                Explique ce que tu as appris à quelqu'un d'autre (ou à toi-même à voix haute). 
+                                C'est la meilleure façon de vérifier ta compréhension.
+                            </p>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-center gap-2">✅ Identifie les lacunes</li>
+                                <li class="flex items-center gap-2">✅ Renforce la compréhension</li>
+                                <li class="flex items-center gap-2">✅ Améliore l'expression</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Erreurs fréquentes -->
+                    <div class="mt-16">
+                        <h2 class="text-2xl font-bold mb-8 text-center">⚠️ Erreurs fréquentes à éviter</h2>
+                        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="glass rounded-xl p-4 border-l-4 border-red-500">
+                                <div class="font-bold mb-2">❌ Réviser la veille</div>
+                                <p class="text-sm opacity-70">Le bachotage ne permet pas une mémorisation durable</p>
+                            </div>
+                            <div class="glass rounded-xl p-4 border-l-4 border-red-500">
+                                <div class="font-bold mb-2">❌ Lire passivement</div>
+                                <p class="text-sm opacity-70">Il faut pratiquer avec des exercices</p>
+                            </div>
+                            <div class="glass rounded-xl p-4 border-l-4 border-red-500">
+                                <div class="font-bold mb-2">❌ Négliger le sommeil</div>
+                                <p class="text-sm opacity-70">Le cerveau consolide les souvenirs pendant le sommeil</p>
+                            </div>
+                            <div class="glass rounded-xl p-4 border-l-4 border-red-500">
+                                <div class="font-bold mb-2">❌ Multitâche</div>
+                                <p class="text-sm opacity-70">Se concentrer sur une seule chose à la fois</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- BREVET PAGE -->
+        <div id="page-brevet" class="page">
+            <section class="py-24 px-6 min-h-screen">
+                <div class="max-w-7xl mx-auto">
+                    <div class="text-center mb-12">
+                        <h1 class="text-4xl font-bold mb-4">🎯 Spécial Brevet 2025</h1>
+                        <p class="opacity-70 max-w-2xl mx-auto">
+                            Tout ce que tu dois savoir pour réussir ton Diplôme National du Brevet
+                        </p>
+                    </div>
+
+                    <!-- Programme officiel -->
+                    <div class="glass rounded-2xl p-8 mb-8">
+                        <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                            📋 Programme officiel du Brevet
+                        </h2>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h3 class="font-bold text-lg mb-4 text-indigo-500">Épreuves écrites (400 points)</h3>
+                                <ul class="space-y-3">
+                                    <li class="flex items-center gap-3 glass rounded-lg p-3">
+                                        <span class="text-xl">📖</span>
+                                        <div>
+                                            <div class="font-medium">Français</div>
+                                            <div class="text-sm opacity-70">100 points - 3h</div>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-center gap-3 glass rounded-lg p-3">
+                                        <span class="text-xl">🧮</span>
+                                        <div>
+                                            <div class="font-medium">Mathématiques</div>
+                                            <div class="text-sm opacity-70">100 points - 2h</div>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-center gap-3 glass rounded-lg p-3">
+                                        <span class="text-xl">🌍</span>
+                                        <div>
+                                            <div class="font-medium">Histoire-Géo-EMC</div>
+                                            <div class="text-sm opacity-70">50 points - 2h</div>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-center gap-3 glass rounded-lg p-3">
+                                        <span class="text-xl">🔬</span>
+                                        <div>
+                                            <div class="font-medium">Sciences (2 matières sur 3)</div>
+                                            <div class="text-sm opacity-70">50 points - 1h</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg mb-4 text-pink-500">Épreuve orale (100 points)</h3>
+                                <div class="glass rounded-lg p-4 mb-4">
+                                    <div class="font-medium mb-2">Oral du Brevet</div>
+                                    <p class="text-sm opacity-70 mb-2">
+                                        Présentation d'un projet mené en Histoire des Arts, EPI, ou Parcours éducatif.
+                                    </p>
+                                    <ul class="text-sm space-y-1">
+                                        <li>• Individuel : 5 min exposé + 10 min entretien</li>
+                                        <li>• Collectif : 10 min exposé + 15 min entretien</li>
+                                    </ul>
+                                </div>
+                                <h3 class="font-bold text-lg mb-4 text-green-500">Contrôle continu (400 points)</h3>
+                                <div class="glass rounded-lg p-4">
+                                    <p class="text-sm opacity-70">
+                                        Évaluation des 8 domaines du socle commun de compétences.
+                                        Chaque domaine est évalué sur 50 points.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mentions -->
+                    <div class="glass rounded-2xl p-8 mb-8">
+                        <h2 class="text-2xl font-bold mb-6">🏆 Les Mentions</h2>
+                        <div class="grid sm:grid-cols-4 gap-4">
+                            <div class="text-center p-4 rounded-xl bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
+                                <div class="text-3xl mb-2">📜</div>
+                                <div class="font-bold">Sans mention</div>
+                                <div class="text-sm opacity-70">400 - 479 points</div>
+                            </div>
+                            <div class="text-center p-4 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200 dark:from-amber-900/50 dark:to-amber-800/50">
+                                <div class="text-3xl mb-2">🥉</div>
+                                <div class="font-bold">Assez Bien</div>
+                                <div class="text-sm opacity-70">480 - 559 points</div>
+                            </div>
+                            <div class="text-center p-4 rounded-xl bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700">
+                                <div class="text-3xl mb-2">🥈</div>
+                                <div class="font-bold">Bien</div>
+                                <div class="text-sm opacity-70">560 - 639 points</div>
+                            </div>
+                            <div class="text-center p-4 rounded-xl bg-gradient-to-br from-yellow-100 to-yellow-200 dark:from-yellow-900/50 dark:to-yellow-800/50">
+                                <div class="text-3xl mb-2">🥇</div>
+                                <div class="font-bold">Très Bien</div>
+                                <div class="text-sm opacity-70">640+ points</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conseils Brevet -->
+                    <div class="glass rounded-2xl p-8">
+                        <h2 class="text-2xl font-bold mb-6">💡 Conseils pour le jour J</h2>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold flex-shrink-0">1</div>
+                                    <div>
+                                        <div class="font-bold">La veille de l'examen</div>
+                                        <p class="text-sm opacity-70">Prépare ton matériel, relis tes fiches légèrement, et couche-toi tôt.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold flex-shrink-0">2</div>
+                                    <div>
+                                        <div class="font-bold">Le matin de l'examen</div>
+                                        <p class="text-sm opacity-70">Prends un bon petit-déjeuner, arrive 30 minutes en avance.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold flex-shrink-0">3</div>
+                                    <div>
+                                        <div class="font-bold">Pendant l'épreuve</div>
+                                        <p class="text-sm opacity-70">Lis tout le sujet d'abord, gère bien ton temps, relis tes réponses.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold flex-shrink-0">✓</div>
+                                    <div>
+                                        <div class="font-bold">Matériel obligatoire</div>
+                                        <p class="text-sm opacity-70">Carte d'identité, convocation, stylos noirs, règle, compas, calculatrice.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold flex-shrink-0">✓</div>
+                                    <div>
+                                        <div class="font-bold">À emporter</div>
+                                        <p class="text-sm opacity-70">Bouteille d'eau, petite collation, montre (sans connexion).</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold flex-shrink-0">✓</div>
+                                    <div>
+                                        <div class="font-bold">Gestion du stress</div>
+                                        <p class="text-sm opacity-70">Respire profondément, reste positif, fais de ton mieux !</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- REVISION PAGE -->
+        <div id="page-revision" class="page">
+            <section class="py-24 px-6 min-h-screen">
+                <div class="max-w-7xl mx-auto">
+                    <div class="text-center mb-12">
+                        <h1 class="text-4xl font-bold mb-4">📖 Mes Révisions</h1>
+                        <p class="opacity-70">Suis ta progression et accède à tes favoris</p>
+                    </div>
+
+                    <!-- Progress Overview -->
+                    <div class="glass rounded-2xl p-8 mb-8">
+                        <h2 class="text-xl font-bold mb-6">📊 Ma Progression Globale</h2>
+                        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="progressOverview">
+                            <!-- Generated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Favorites -->
+                    <div class="glass rounded-2xl p-8 mb-8">
+                        <h2 class="text-xl font-bold mb-6">⭐ Mes Favoris</h2>
+                        <div id="favoritesList" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <p class="opacity-50 col-span-full text-center py-8">
+                                Aucun favori pour le moment. Ajoute des chapitres à tes favoris en cliquant sur ⭐
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="glass rounded-2xl p-8">
+                        <h2 class="text-xl font-bold mb-6">🕐 Activité récente</h2>
+                        <div id="recentActivity" class="space-y-4">
+                            <p class="opacity-50 text-center py-8">
+                                Commence à réviser pour voir ton activité ici !
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ABOUT PAGE -->
+        <div id="page-about" class="page">
+            <section class="py-24 px-6 min-h-screen">
+                <div class="max-w-4xl mx-auto">
+                    <div class="text-center mb-12">
+                        <div class="w-24 h-24 rounded-3xl gradient-bg mx-auto mb-6 flex items-center justify-center text-5xl animate-float">
+                            🎓
+                        </div>
+                        <h1 class="text-4xl font-bold mb-4">À propos de RéussitePro 3ᵉ</h1>
+                        <p class="opacity-70">La plateforme ultime pour réussir ton Brevet</p>
+                    </div>
+
+                    <div class="glass rounded-2xl p-8 mb-8">
+                        <h2 class="text-2xl font-bold mb-4">Notre Mission</h2>
+                        <p class="opacity-80 leading-relaxed mb-4">
+                            RéussitePro 3ᵉ a été créé avec un seul objectif : aider chaque élève de 3ème à réussir 
+                            son Brevet avec confiance. Nous croyons que chaque élève peut exceller avec les bons outils 
+                            et les bonnes méthodes.
+                        </p>
+                        <p class="opacity-80 leading-relaxed">
+                            Notre plateforme propose des cours clairs, des exercices interactifs, et des conseils 
+                            méthodologiques basés sur les meilleures pratiques pédagogiques.
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-6 mb-8">
+                        <div class="glass rounded-2xl p-6 text-center">
+                            <div class="text-4xl mb-4">📚</div>
+                            <h3 class="font-bold mb-2">Contenu Complet</h3>
+                            <p class="text-sm opacity-70">Toutes les matières du programme officiel de 3ème</p>
+                        </div>
+                        <div class="glass rounded-2xl p-6 text-center">
+                            <div class="text-4xl mb-4">🎯</div>
+                            <h3 class="font-bold mb-2">Adapté au Brevet</h3>
+                            <p class="text-sm opacity-70">Exercices et conseils orientés vers l'examen</p>
+                        </div>
+                        <div class="glass rounded-2xl p-6 text-center">
+                            <div class="text-4xl mb-4">💡</div>
+                            <h3 class="font-bold mb-2">100% Gratuit</h3>
+                            <p class="text-sm opacity-70">Accès libre à toutes les ressources</p>
+                        </div>
+                    </div>
+
+                    <div class="glass rounded-2xl p-8 text-center">
+                        <h2 class="text-xl font-bold mb-4">Prêt à commencer ?</h2>
+                        <p class="opacity-70 mb-6">Rejoins des milliers d'élèves qui révisent avec RéussitePro</p>
+                        <button class="btn-primary" onclick="showPage('subjects')">
+                            🚀 Commencer maintenant
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- QUIZ MODAL -->
+        <div id="quizModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+            <div class="modal-backdrop absolute inset-0" onclick="closeQuiz()"></div>
+            <div class="glass rounded-2xl p-8 max-w-2xl w-full relative z-10 max-h-[90vh] overflow-y-auto">
+                <button onclick="closeQuiz()" class="absolute top-4 right-4 text-2xl hover:scale-110 transition">&times;</button>
+                <div id="quizContent">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass py-8 px-6 mt-12">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <div class="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center">
+                    <span class="text-white font-bold">R</span>
+                </div>
+                <span class="font-bold bg-gradient-to-r from-indigo-500 to-pink-500 bg-clip-text text-transparent">
+                    RéussitePro 3ᵉ
+                </span>
+            </div>
+            <p class="text-sm opacity-70 mb-4">
+                Le meilleur site éducatif pour réussir ton Brevet 🎓
+            </p>
+            <p class="text-xs opacity-50">
+                © 2025 RéussitePro. Tous droits réservés. Fait avec ❤️ pour les élèves de 3ème.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================
+        // DATA - Toutes les matières et contenus
+        // ============================================
+        const subjectsData = {
+            maths: {
+                id: 'maths',
+                name: 'Mathématiques',
+                icon: '🧮',
+                color: 'from-indigo-500 to-purple-500',
+                category: 'sciences',
+                description: 'Nombres, algèbre, géométrie, fonctions et statistiques',
+                chapters: [
+                    {
+                        id: 'ch1',
+                        title: 'Calcul numérique et littéral',
+                        difficulty: 'easy',
+                        content: `
+                            <h3 class="text-xl font-bold mb-4">1. Les nombres relatifs</h3>
+                            <p class="mb-4">Les nombres relatifs sont les nombres positifs et négatifs. Ils permettent de représenter des situations réelles comme les températures ou les altitudes.</p>
+                            
+                            <div class="glass rounded-xl p-4 mb-4">
+                                <strong>Règles de calcul :</strong>
+                                <ul class="mt-2 space-y-1">
+                                    <li>• (+) × (+) = (+)</li>
+                                    <li>• (-) × (-) = (+)</li>
+                                    <li>• (+) × (-) = (-)</li>
+                                    <li>• (-) × (+) = (-)</li>
+                                </ul>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold mb-4 mt-6">2. Calcul littéral</h3>
+                            <p class="mb-4">Le calcul littéral utilise des lettres pour représenter des nombres inconnus.</p>
+                            
+                            <div class="glass rounded-xl p-4 mb-4">
+                                <strong>Identités remarquables :</strong>
+                                <ul class="mt-2 space-y-1">
+                                    <li>• (a + b)² = a² + 2ab + b²</li>
+                                    <li>• (a - b)² = a² - 2ab + b²</li>
+                                    <li>• (a + b)(a - b) = a² - b²</li>
+                                </ul>
+                            </div>
+                        `,
+                        tips: [
+                            "Apprends par cœur les identités remarquables",
+                            "Entraîne-toi à développer et factoriser régulièrement",
+                            "Vérifie toujours tes calculs en remplaçant par des valeurs"
+                        ],
+                        quiz: [
+                            { question: "Que vaut (3 + 2)² ?", options: ["25", "13", "10", "15"], correct: 0 },
+                            { question: "Développer (x - 4)²", options: ["x² - 8x + 16", "x² - 4x + 16", "x² + 8x - 16", "x² - 16"], correct: 0 },
+                            { question: "(-5) × (-3) = ?", options: ["15", "-15", "8", "-8"], correct: 0 }
+                        ]
+                    },
+                    {
+                        id: 'ch2',
+                        title: 'Théorème de Pythagore',
+                        difficulty: 'medium',
+                        content: `
+                            <h3 class="text-xl font-bold mb-4">Le théorème de Pythagore</h3>
+                            <p class="mb-4">Dans un triangle rectangle, le carré de l'hypoténuse est égal à la somme des carrés des deux autres côtés.</p>
+                            
+                            <div class="glass rounded-xl p-4 mb-4 text-center">
+                                <strong class="text-2xl">BC² = AB² + AC²</strong>
+                                <p class="mt-2 text-sm opacity-70">où BC est l'hypoténuse (côté opposé à l'angle droit)</p>
+                            </div>
+                            
+                            <h4 class="font-bold mt-6 mb-2">Exemple :</h4>
+                            <p class="mb-4">Dans un triangle ABC rectangle en A, si AB = 3 cm et AC = 4 cm, alors :</p>
+                            <p class="glass rounded-lg p-3">BC² = 3² + 4² = 9 + 16 = 25, donc BC = 5 cm</p>
+                            
+                            <h4 class="font-bold mt-6 mb-2">Réciproque :</h4>
+                            <p>Si dans un triangle BC² = AB² + AC², alors le triangle est rectangle en A.</p>
+                        `,
+                        tips: [
+                            "L'hypoténuse est toujours le plus grand côté",
+                            "N'oublie pas de prendre la racine carrée à la fin",
+                            "Utilise la réciproque pour prouver qu'un triangle est rectangle"
+                        ],
+                        quiz: [
+                            { question: "Dans un triangle rectangle, quel est le nom du plus grand côté ?", options: ["L'hypoténuse", "La hauteur", "La médiane", "Le diamètre"], correct: 0 },
+                            { question: "Si les côtés de l'angle droit mesurent 6 et 8, que vaut l'hypoténuse ?", options: ["10", "14", "48", "100"], correct: 0 }
+                        ]
+                    },
+                    {
+                        id: 'ch3',
+                        title: 'Théorème de Thalès',
+                        difficulty: 'medium',
+                        content: `
+                            <h3 class="text-xl font-bold mb-4">Le théorème de Thalès</h3>
+                            <p class="mb-4">Si deux droites sont coupées par des droites parallèles, alors les rapports des longueurs sont égaux.</p>
+                            
+                            <div class="glass rounded-xl p-4 mb-4 text-center">
+                                <p class="mb-2">Si (BC) // (MN), alors :</p>
+                                <strong class="text-xl">AM/AB = AN/AC = MN/BC</strong>
+                            </div>
+                            
+                            <h4 class="font-bold mt-6 mb-2">Application :</h4>
+                            <p>Ce théorème permet de calculer des longueurs inaccessibles en utilisant des proportions.</p>
+                        `,
+                        tips: [
+                            "Toujours vérifier que les droites sont bien parallèles",
+                            "Fais un schéma clair pour identifier les rapports",
+                            "Les produits en croix sont tes amis !"
+                        ],
+                        quiz: [
+                            { question: "Le théorème de Thalès s'applique quand les droites sont...", options: ["Parallèles", "Perpendiculaires", "Sécantes", "Confondues"], correct: 0 }
+                        ]
+                    },
+                    {
+                        id: 'ch4',
+                        title: 'Fonctions linéaires et affines',
+                        difficulty: 'hard',
+                        content: `
+                            <h3 class="text-xl font-bold mb-4">1. Fonctions linéaires</h3>
+                            <p class="mb-4">Une fonction linéaire est de la forme f(x) = ax où a est le coefficient.</p>
+                            
+                            <div class="glass rounded-xl p-4 mb-4">
+                                <strong>Propriétés :</strong>
+                                <ul class="mt-2">
+                                    <li>• f(0) = 0 (passe par l'origine)</li>
+                                    <li>• La représentation graphique est une droite</li>
+                                </ul>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold mb-4 mt-6">2. Fonctions affines</h3>
+                            <p class="mb-4">Une fonction affine est de la forme f(x) = ax + b</p>
+                            <ul class="space-y-2">
+                                <li>• <strong>a</strong> est le coefficient directeur (pente)</li>
+                                <li>• <strong>b</strong> est l'ordonnée à l'origine</li>
+                            </ul>
+                        `,
+                        tips: [
+                            "Une fonction linéaire passe toujours par l'origine",
+                            "Le coefficient directeur indique si la droite monte ou descend",
+                            "Pour tracer une droite, deux points suffisent"
+                        ],
+                        quiz: [
+                            { question: "f(x) = 3x est une fonction...", options: ["Linéaire", "Affine", "Constante", "Quadratique"], correct: 0 },
+                            { question: "Dans f(x) = 2x + 5, l'ordonnée à l'origine est...", options: ["5", "2", "7", "10"], correct: 0 }
+                        ]
+                    }
+                ]
+            },
+            francais: {
+                id: 'francais',
+                name: 'Français',
+                icon: '📖',
+                color: 'from-pink-500 to-red-500',
+                category: 'lettres',
+                description: 'Grammaire, conjugaison, rédaction et analyse littéraire',
+                chapters: [
+                    {
+                        id: 'ch1',
+                        title: 'La conjugaison des temps',
+                        difficulty: 'medium',
+                        content: `
+                            <h3 class="text-xl font-bold mb-4">Les temps de l'indicatif</h3>
+                            
+                            <h4 class="font-bold mt-4 mb-2">Le passé simple</h4>
+                            <p class="mb-4">Temps du récit au passé, il exprime des actions brèves et ponctuelles.</p>
+                            
+                            <div class="glass rounded-xl p-4 mb-4">
+                                <strong>1er groupe (-er) :</strong> -ai, -as, -a, -âmes, -âtes, -èrent<br>
+                                <strong>2e groupe (-ir) :</strong> -is, -is, -it, -îmes, -îtes, -irent<br>
+                                <strong>3e groupe :</strong> Terminaisons variées (être → fut, avoir → eut)
+                            </div>
+                            
+                            <h4 class="font-bold mt-4 mb-2">L'imparfait</h4>
+                            <p class="mb-4">Temps de la description et des actions durables.</p>
+                            <div class="glass rounded-xl p-4 mb-4">
+                                <strong>Terminaisons :</strong> -ais, -ais, -ait, -ions, -iez, -aient
+                            </div>
+                        `,
+                        tips: [
+                            "Apprends les verbes irréguliers par cœur",
+                            "Passé simple = action ponctuelle, Imparfait = description",
+                            "Attention aux accents circonflexes au passé simple"
+                        ],
+                        quiz: [
+                            { question: "Il (venir) hier soir. Passé simple ?", options: ["vint", "venait", "venu", "viendra"], correct: 0 },
+                            { question: "L'imparfait exprime...", options: ["Une action durable", "Une action brève", "Le futur", "Un ordre"], correct: 0 }
+                        ]
+                    },
+                    {
+                        id: 'ch2',
+                        title: 'L\'analyse littéraire',
+                        difficulty: 'hard',
+                        content: `
+                            <h3 class="text-xl font-bold mb-4">Les figures de style</h3>
+                            
+                            <div class="space-y-4">
+                                <div class="glass rounded-xl p-4">
+                                    <strong class="text-indigo-500">La métaphore :</strong>
+                                    <p>Comparaison sans outil de comparaison.</p>
+                                    <p class="text-sm opacity-70 mt-1">Ex: "Cet homme est un lion" = il est courageux</p>
+                                </div>
+                                
+                                <div class="glass rounded-xl p-4">
+                                    <strong class="text-pink-500">La comparaison :</strong>
+                                    <p>Rapprochement avec un outil (comme, tel que, ainsi que...)</p>
+                                    <p class="text-sm opacity-70 mt-1">Ex: "Il court comme le vent"</p>
+                                </div>
+                                
+                                <div class="glass rounded-xl p-4">
+                                    <strong class="text-green-500">L'hyperbole :</strong>
+                                    <p>Exagération pour frapper l'esprit.</p>
+                                    <p class="text-sm opacity-70 mt-1">Ex: "Je meurs de faim"</p>
+                                </div>
+                                
+                                <div class="glass rounded-xl p-4">
+                                    <strong class="text-amber-500">L'antithèse :</strong>
+                                    <p>Opposition de deux termes contraires.</p>
+                                    <p class="text-sm opacity-70 mt-1">Ex: "La vie et la mort"</p>
+                                </div>
+                            </div>
+                        `,
+                        tips: [
+                            "Apprends les figures de style avec des exemples",
+                            "Dans l'analyse, cite toujours le texte",
+                            "Explique l'effet produit sur le lecteur"
+                        ],
+                        quiz: [
+                            { question: "'Il pleut des cordes' est une...", options: ["Hyperbole", "Métaphore", "Comparaison", "Antithèse"], correct: 0 },
+                            { question: "Une comparaison utilise...", options: ["Un outil de comparaison", "Aucun outil", "Des chiffres", "Des dates"], correct: 0 }
+                        ]
+                    }
+                ]
+            },
+            histoire: {
+                id: 'histoire',
+                name: 'Histoire-Géographie',
+                icon: '🌍',
+                color: 'from-amber-500 to-orange-500',
+                category: 'lettres',
+                description: 'Guerres mondiales, France et Europe, géographie du monde',
+                chapters: [
+                    {
+                        id: 'ch1',
+                        title: 'La Première Guerre mondiale',
+                        difficulty: 'medium',
+                        content: `
+                            <h3 class="text-xl font-bold mb-4">1914-1918 : La Grande Guerre</h3>
+                            
+                            <h4 class="font-bold mt-4 mb-2">Les causes du conflit</h4>
+                            <ul class="space-y-2 mb-4">
+                                <li>• Rivalités territoriales (Alsace-Lorraine)</li>
+                                <li>• Course aux armements</li>
+                                <li>• Système d'alliances</li>
+                                <li>• Assassinat de François-Ferdinand (28 juin 1914)</li>
+                            </ul>
+                            
+                            <h4 class="font-bold mt-4 mb-2">Les grandes phases</h4>
+                            <div class="glass rounded-xl p-4 mb-4">
+                                <p><strong>1914 :</strong> Guerre de mouvement</p>
+                                <p><strong>1915-1917 :</strong> Guerre de position (tranchées)</p>
+                                <p><strong>1918 :</strong> Reprise du mouvement, armistice (11 novembre)</p>
+                            </div>
+                            
+                            <h4 class="font-bold mt-4 mb-2">Bilan</h4>
+                            <p>10 millions de morts, destructions massives, traité de Versailles (1919)</p>
+                        `,
+                        tips: [
+                            "Retiens les dates clés : 1914, 1916 (Verdun), 1918",
+                            "Comprends les causes profondes du conflit",
+                            "Connais le vocabulaire : tranchées, poilus, armistice"
+                        ],
+                        quiz: [
+                            { question: "Quand a eu lieu l'armistice de la Première Guerre mondiale ?", options: ["11 novembre 1918", "8 mai 1945", "14 juillet 1914", "1er septembre 1939"], correct: 0 },
+                            { question: "Comment appelle-t-on les soldats français de 1914-1918 ?", options: ["Les poilus", "Les grognards", "Les marsouins", "Les chasseurs"], correct: 0 }
+                        ]
+                    },
+                    {
+                        id: 'ch2',
+                        title: 'La Seconde Guerre mondiale',
+                        difficulty: 'medium',
+                        content: `
+                            <h3 class="text-xl font-bold mb-4">1939-1945 : Le conflit mondial</h3>
+                            
+                            <h4 class="font-bold mt-4 mb-2">Dates clés</h4>
+                            <div class="glass rounded-xl p-4 mb-4">
+                                <p><strong>1er sept. 1939 :</strong> Invasion de la Pologne</p>
+                                <p><strong>Juin 1940 :</strong> Défaite française, appel du 18 juin</p>
+                                <p><strong>1941 :</strong> Entrée en guerre des USA et URSS</p>
+                                <p><strong>6 juin 1944 :</strong> Débarquement en Normandie</p>
+                                <p><strong>8 mai 1945 :</strong> Capitulation allemande</p>
+                            </div>
+                            
+                            <h4 class="font-bold mt-4 mb-2">La Shoah</h4>
+                            <p class="mb-4">Génocide des Juifs d'Europe par les nazis : 6 millions de victimes.</p>
+                            
+                            <h4 class="font-bold mt-4 mb-2">La France</h4>
+                            <p>Régime de Vichy (collaboration) vs Résistance (De Gaulle, Jean Moulin)</p>
+                        `,
+                        tips: [
+                            "Distingue collaboration et résistance",
+                            "Connais les grandes figures : De Gaulle, Pétain, Jean Moulin",
+                            "Comprends ce qu'est un génocide"
+                        ],
+                        quiz: [
+                            { question: "Qui a lancé l'appel du 18 juin 1940 ?", options: ["Charles de Gaulle", "Philippe Pétain", "Jean Moulin", "Winston Churchill"], correct: 0 }
+                        ]
+                    }
+                ]
+            },
+            svt: {
+                id: 'svt',
+                name: 'SVT',
+                icon: '🧬',
+                color: 'from-green-500 to-emerald-500',
+                category: 'sciences',
+                description: 'Génétique, évolution, corps humain et environnement',
+                chapters: [
+                    {
+                        id: 'ch1',
+                        title: 'La génétique',
+                        difficulty: 'hard',
+                        content: `
+                            <h3 class="text-xl font-bold mb-4">L'ADN et les gènes</h3>
+                            
+                            <h4 class="font-bold mt-4 mb-2">L'ADN</h4>
+                            <p class="mb-4">L'ADN (Acide DésoxyriboNucléique) est une molécule en forme de double hélice qui contient l'information génétique.</p>
+                            
+                            <div class="glass rounded-xl p-4 mb-4">
+                                <strong>Structure :</strong>
+                                <ul class="mt-2">
+                                    <li>• Formée de 4 bases : A, T, G, C</li>
+                                    <li>• A s'associe avec T, G avec C</li>
+                                    <li>• Localisée dans le noyau des cellules</li>
+                                </ul>
+                            </div>
+                            
+                            <h4 class="font-bold mt-4 mb-2">Les gènes et les allèles</h4>
+                            <p class="mb-4">Un gène est une portion d'ADN qui code pour un caractère. Les allèles sont les différentes versions d'un gène.</p>
+                            
+                            <div class="glass rounded-xl p-4">
+                                <strong>Exemple :</strong> Le gène de la couleur des yeux peut avoir l'allèle "bleu" ou "marron"
+                            </div>
+                        `,
+                        tips: [
+                            "ADN = support de l'information génétique",
+                            "Un gène = un caractère, mais plusieurs allèles possibles",
+                            "Dominant vs récessif : le dominant s'exprime toujours"
+                        ],
+                        quiz: [
+                            { question: "Quelle base s'associe avec l'adénine (A) ?", options: ["Thymine (T)", "Guanine (G)", "Cytosine (C)", "Uracile (U)"], correct: 0 },
+                            { question: "Où se trouve l'ADN dans la cellule ?", options: ["Le noyau", "Le cytoplasme", "La membrane", "Les mitochondries"], correct: 0 }
+                        ]
+                    }
+                ]
+            },
+            physique: {
+                id: 'physique',
+                name: 'Physique-Chimie',
+                icon: '⚗️',
+                color: 'from-cyan-500 to-blue-500',
+                category: 'sciences',
+                description: 'Électricité, chimie, mécanique et énergie',
+                chapters: [
+                    {
+                        id: 'ch1',
+                        title: 'L\'électricité',
+                        difficulty: 'medium',
+                        content: `
+                            <h3 class="text-xl font-bold mb-4">Lois de l'électricité</h3>
+                            
+                            <h4 class="font-bold mt-4 mb-2">La loi d'Ohm</h4>
+                            <div class="glass rounded-xl p-4 mb-4 text-center">
+                                <strong class="text-2xl">U = R × I</strong>
+                                <p class="mt-2 text-sm opacity-70">U = tension (V), R = résistance (Ω), I = intensité (A)</p>
+                            </div>
+                            
+                            <h4 class="font-bold mt-4 mb-2">Circuit en série</h4>
+                            <ul class="mb-4">
+                                <li>• L'intensité est la même partout</li>
+                                <li>• Les tensions s'additionnent</li>
+                            </ul>
+                            
+                            <h4 class="font-bold mt-4 mb-2">Circuit en dérivation</h4>
+                            <ul>
+                                <li>• La tension est la même aux bornes de chaque branche</li>
+                                <li>• Les intensités s'additionnent</li>
+                            </ul>
+                        `,
+                        tips: [
+                            "Retiens la formule U = R × I par cœur",
+                            "Série = une seule boucle, Dérivation = plusieurs branches",
+                            "Fais des schémas normalisés pour les circuits"
+                        ],
+                        quiz: [
+                            { question: "Quelle est l'unité de la résistance ?", options: ["Ohm (Ω)", "Volt (V)", "Ampère (A)", "Watt (W)"], correct: 0 },
+                            { question: "U = 12V et R = 4Ω. Que vaut I ?", options: ["3 A", "48 A", "8 A", "16 A"], correct: 0 }
+                        ]
+                    }
+                ]
+            },
+            techno: {
+                id: 'techno',
+                name: 'Technologie',
+                icon: '🔧',
+                color: 'from-slate-500 to-gray-600',
+                category: 'sciences',
+                description: 'Programmation, systèmes techniques et design',
+                chapters: [
+                    {
+                        id: 'ch1',
+                        title: 'L\'algorithmique',
+                        difficulty: 'medium',
+                        content: `
+                            <h3 class="text-xl font-bold mb-4">Les bases de l'algorithmique</h3>
+                            
+                            <h4 class="font-bold mt-4 mb-2">Qu'est-ce qu'un algorithme ?</h4>
+                            <p class="mb-4">Un algorithme est une suite d'instructions ordonnées permettant de résoudre un problème.</p>
+                            
+                            <h4 class="font-bold mt-4 mb-2">Les structures de base</h4>
+                            <div class="space-y-4">
+                                <div class="glass rounded-xl p-4">
+                                    <strong>Les variables :</strong>
+                                    <p class="text-sm">Espaces mémoire pour stocker des données</p>
+                                </div>
+                                <div class="glass rounded-xl p-4">
+                                    <strong>Les conditions (SI...ALORS...SINON) :</strong>
+                                    <p class="text-sm">Permettent de faire des choix</p>
+                                </div>
+                                <div class="glass rounded-xl p-4">
+                                    <strong>Les boucles (TANT QUE, POUR) :</strong>
+                                    <p class="text-sm">Répètent des instructions</p>
+                                </div>
+                            </div>
+                        `,
+                        tips: [
+                            "Un algorithme doit être précis et sans ambiguïté",
+                            "Teste ton algorithme avec des valeurs concrètes",
+                            "Scratch utilise ces mêmes principes"
+                        ],
+                        quiz: [
+                            { question: "Une variable sert à...", options: ["Stocker des données", "Dessiner", "Imprimer", "Calculer uniquement"], correct: 0 }
+                        ]
+                    }
+                ]
+            },
+            anglais: {
+                id: 'anglais',
+                name: 'Anglais',
+                icon: '🇬🇧',
+                color: 'from-red-500 to-rose-500',
+                category: 'langues',
+                description: 'Grammaire, vocabulaire et expression écrite/orale',
+                chapters: [
+                    {
+                        id: 'ch1',
+                        title: 'Les temps en anglais',
+                        difficulty: 'medium',
+                        content: `
+                            <h3 class="text-xl font-bold mb-4">Present Simple vs Present Continuous</h3>
+                            
+                            <div class="glass rounded-xl p-4 mb-4">
+                                <strong class="text-indigo-500">Present Simple</strong>
+                                <p>Habitudes, vérités générales</p>
+                                <p class="text-sm mt-2">I work / She works</p>
+                                <p class="text-sm opacity-70">He plays football every Saturday.</p>
+                            </div>
+                            
+                            <div class="glass rounded-xl p-4 mb-4">
+                                <strong class="text-pink-500">Present Continuous</strong>
+                                <p>Action en cours maintenant</p>
+                                <p class="text-sm mt-2">I am working / She is working</p>
+                                <p class="text-sm opacity-70">He is playing football right now.</p>
+                            </div>
+                            
+                            <h4 class="font-bold mt-6 mb-2">Preterit (Past Simple)</h4>
+                            <div class="glass rounded-xl p-4">
+                                <p>Action terminée dans le passé</p>
+                                <p class="text-sm mt-2">I worked / She worked</p>
+                                <p class="text-sm opacity-70">Verbes irréguliers : go → went, see → saw</p>
+                            </div>
+                        `,
+                        tips: [
+                            "Apprends la liste des verbes irréguliers",
+                            "Present Simple = habitude, Present Continuous = maintenant",
+                            "Attention au -s à la 3ème personne du singulier"
+                        ],
+                        quiz: [
+                            { question: "'She ___ to school every day' (go)", options: ["goes", "go", "going", "went"], correct: 0 },
+                            { question: "'I ___ TV right now' (watch)", options: ["am watching", "watch", "watches", "watched"], correct: 0 }
+                        ]
+                    }
+                ]
+            },
+            espagnol: {
+                id: 'espagnol',
+                name: 'Espagnol',
+                icon: '🇪🇸',
+                color: 'from-yellow-500 to-red-500',
+                category: 'langues',
+                description: 'Conjugaison, vocabulaire et culture hispanique',
+                chapters: [
+                    {
+                        id: 'ch1',
+                        title: 'Le présent de l\'indicatif',
+                        difficulty: 'easy',
+                        content: `
+                            <h3 class="text-xl font-bold mb-4">El presente de indicativo</h3>
+                            
+                            <h4 class="font-bold mt-4 mb-2">Verbes réguliers</h4>
+                            <div class="grid md:grid-cols-3 gap-4 mb-4">
+                                <div class="glass rounded-xl p-4">
+                                    <strong>-AR (hablar)</strong>
+                                    <p class="text-sm mt-2">hablo, hablas, habla<br>hablamos, habláis, hablan</p>
+                                </div>
+                                <div class="glass rounded-xl p-4">
+                                    <strong>-ER (comer)</strong>
+                                    <p class="text-sm mt-2">como, comes, come<br>comemos, coméis, comen</p>
+                                </div>
+                                <div class="glass rounded-xl p-4">
+                                    <strong>-IR (vivir)</strong>
+                                    <p class="text-sm mt-2">vivo, vives, vive<br>vivimos, vivís, viven</p>
+                                </div>
+                            </div>
+                            
+                            <h4 class="font-bold mt-4 mb-2">Verbes irréguliers courants</h4>
+                            <div class="glass rounded-xl p-4">
+                                <p><strong>Ser :</strong> soy, eres, es, somos, sois, son</p>
+                                <p><strong>Estar :</strong> estoy, estás, está, estamos, estáis, están</p>
+                                <p><strong>Ir :</strong> voy, vas, va, vamos, vais, van</p>
+                            </div>
+                        `,
+                        tips: [
+                            "Attention à la différence SER / ESTAR",
+                            "Apprends les verbes irréguliers les plus courants",
+                            "SER = caractéristique permanente, ESTAR = état temporaire"
+                        ],
+                        quiz: [
+                            { question: "Yo ___ estudiante (être)", options: ["soy", "estoy", "es", "está"], correct: 0 },
+                            { question: "Nosotros ___ en Madrid (être/se trouver)", options: ["estamos", "somos", "son", "están"], correct: 0 }
+                        ]
+                    }
+                ]
+            },
+            emc: {
+                id: 'emc',
+                name: 'EMC',
+                icon: '⚖️',
+                color: 'from-violet-500 to-purple-600',
+                category: 'lettres',
+                description: 'Citoyenneté, république et valeurs démocratiques',
+                chapters: [
+                    {
+                        id: 'ch1',
+                        title: 'Les valeurs de la République',
+                        difficulty: 'easy',
+                        content: `
+                            <h3 class="text-xl font-bold mb-4">Liberté, Égalité, Fraternité</h3>
+                            
+                            <div class="glass rounded-xl p-4 mb-4">
+                                <strong class="text-blue-500">Liberté</strong>
+                                <p class="mt-2">Liberté d'expression, de conscience, d'aller et venir... 
+                                Elle s'arrête où commence celle des autres.</p>
+                            </div>
+                            
+                            <div class="glass rounded-xl p-4 mb-4">
+                                <strong class="text-white bg-gray-800 px-2 rounded">Égalité</strong>
+                                <p class="mt-2">Tous les citoyens sont égaux devant la loi, 
+                                sans distinction d'origine, de race ou de religion.</p>
+                            </div>
+                            
+                            <div class="glass rounded-xl p-4 mb-4">
+                                <strong class="text-red-500">Fraternité</strong>
+                                <p class="mt-2">Solidarité entre les citoyens, 
+                                entraide et cohésion sociale.</p>
+                            </div>
+                            
+                            <h4 class="font-bold mt-6 mb-2">La laïcité</h4>
+                            <p>Principe de séparation de l'Église et de l'État (loi de 1905). 
+                            L'État est neutre vis-à-vis des religions.</p>
+                        `,
+                        tips: [
+                            "Connais la devise et les symboles de la République",
+                            "Comprends la différence entre droits et devoirs",
+                            "La laïcité garantit la liberté de conscience"
+                        ],
+                        quiz: [
+                            { question: "La loi sur la laïcité date de...", options: ["1905", "1789", "1958", "2004"], correct: 0 },
+                            { question: "Quelle est la devise de la France ?", options: ["Liberté, Égalité, Fraternité", "Unité, Force, Progrès", "Paix, Amour, Liberté", "Justice, Vérité, Honneur"], correct: 0 }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // ============================================
+        // STATE MANAGEMENT
+        // ============================================
+        let state = {
+            currentPage: 'home',
+            currentSubject: null,
+            currentChapter: null,
+            darkMode: false,
+            progress: {},
+            favorites: [],
+            recentActivity: [],
+            searchResults: []
+        };
+
+        // Load state from localStorage
+        function loadState() {
+            const saved = localStorage.getItem('reussiteProState');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                state.progress = parsed.progress || {};
+                state.favorites = parsed.favorites || [];
+                state.recentActivity = parsed.recentActivity || [];
+                state.darkMode = parsed.darkMode || false;
+                
+                if (state.darkMode) {
+                    document.body.classList.add('dark');
+                    document.getElementById('sunIcon').classList.add('hidden');
+                    document.getElementById('moonIcon').classList.remove('hidden');
+                }
+            }
+        }
+
+        // Save state to localStorage
+        function saveState() {
+            localStorage.setItem('reussiteProState', JSON.stringify({
+                progress: state.progress,
+                favorites: state.favorites,
+                recentActivity: state.recentActivity,
+                darkMode: state.darkMode
+            }));
+        }
+
+        // ============================================
+        // NAVIGATION
+        // ============================================
+        function showPage(page, data = null) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            
+            // Update nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === page) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Show requested page
+            const pageEl = document.getElementById(`page-${page}`);
+            if (pageEl) {
+                pageEl.classList.add('active');
+            }
+
+            state.currentPage = page;
+
+            // Handle specific pages
+            if (page === 'subjects') {
+                renderAllSubjects();
+            } else if (page === 'subject-detail' && data) {
+                renderSubjectDetail(data);
+            } else if (page === 'revision') {
+                renderRevisionPage();
+            } else if (page === 'home') {
+                renderSubjectsPreview();
+            }
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ============================================
+        // RENDER FUNCTIONS
+        // ============================================
+        function renderSubjectsPreview() {
+            const container = document.getElementById('subjectsPreview');
+            const subjects = Object.values(subjectsData).slice(0, 6);
+            
+            container.innerHTML = subjects.map((subject, index) => `
+                <div class="subject-card glass rounded-2xl p-6 relative overflow-hidden reveal" 
+                     style="animation-delay: ${index * 0.1}s;"
+                     onclick="showPage('subject-detail', '${subject.id}')">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 rounded-xl bg-gradient-to-br ${subject.color} flex items-center justify-center text-2xl">
+                            ${subject.icon}
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">${subject.name}</h3>
+                            <p class="text-sm opacity-70">${subject.chapters.length} chapitres</p>
+                        </div>
+                    </div>
+                    <p class="text-sm opacity-70 mb-4">${subject.description}</p>
+                    <div class="flex items-center justify-between">
+                        <div class="progress-bar flex-1 mr-4">
+                            <div class="progress-fill" style="width: ${getSubjectProgress(subject.id)}%;"></div>
+                        </div>
+                        <span class="text-sm font-medium">${getSubjectProgress(subject.id)}%</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderAllSubjects() {
+            const container = document.getElementById('allSubjects');
+            const subjects = Object.values(subjectsData);
+            
+            container.innerHTML = subjects.map((subject, index) => `
+                <div class="subject-card glass rounded-2xl p-6 relative overflow-hidden" 
+                     data-category="${subject.category}"
+                     onclick="showPage('subject-detail', '${subject.id}')">
+                    <button class="favorite-btn absolute top-4 right-4 text-2xl ${state.favorites.includes(subject.id) ? 'active' : ''}"
+                            onclick="event.stopPropagation(); toggleFavorite('${subject.id}', this)">
+                        ${state.favorites.includes(subject.id) ? '⭐' : '☆'}
+                    </button>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-16 h-16 rounded-xl bg-gradient-to-br ${subject.color} flex items-center justify-center text-3xl">
+                            ${subject.icon}
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-xl">${subject.name}</h3>
+                            <p class="text-sm opacity-70">${subject.chapters.length} chapitres</p>
+                        </div>
+                    </div>
+                    <p class="text-sm opacity-70 mb-4">${subject.description}</p>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm">Progression</span>
+                        <span class="text-sm font-medium">${getSubjectProgress(subject.id)}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${getSubjectProgress(subject.id)}%;"></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderSubjectDetail(subjectId) {
+            const subject = subjectsData[subjectId];
+            if (!subject) return;
+
+            state.currentSubject = subject;
+            
+            // Add to recent activity
+            addToRecentActivity(subject.name, subject.icon);
+
+            const container = document.getElementById('subjectDetailContent');
+            container.innerHTML = `
+                <div class="glass rounded-2xl p-8 mb-8">
+                    <div class="flex flex-wrap items-center gap-6 mb-6">
+                        <div class="w-20 h-20 rounded-2xl bg-gradient-to-br ${subject.color} flex items-center justify-center text-4xl">
+                            ${subject.icon}
+                        </div>
+                        <div>
+                            <h1 class="text-3xl font-bold">${subject.name}</h1>
+                            <p class="opacity-70">${subject.description}</p>
+                        </div>
+                        <button class="favorite-btn text-3xl ml-auto ${state.favorites.includes(subject.id) ? 'active' : ''}"
+                                onclick="toggleFavorite('${subject.id}', this)">
+                            ${state.favorites.includes(subject.id) ? '⭐' : '☆'}
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="text-sm">Progression globale</span>
+                        <div class="progress-bar flex-1">
+                            <div class="progress-fill" style="width: ${getSubjectProgress(subject.id)}%;"></div>
+                        </div>
+                        <span class="font-medium">${getSubjectProgress(subject.id)}%</span>
+                    </div>
+                </div>
+
+                <h2 class="text-2xl font-bold mb-6">📚 Chapitres</h2>
+                <div class="grid md:grid-cols-2 gap-6 mb-12">
+                    ${subject.chapters.map((chapter, index) => `
+                        <div class="glass rounded-2xl p-6 cursor-pointer hover:scale-[1.02] transition-transform"
+                             onclick="showChapter('${subject.id}', '${chapter.id}')">
+                            <div class="flex items-start justify-between mb-4">
+                                <h3 class="font-bold text-lg">${index + 1}. ${chapter.title}</h3>
+                                <span class="px-3 py-1 rounded-full text-xs text-white ${
+                                    chapter.difficulty === 'easy' ? 'badge-easy' :
+                                    chapter.difficulty === 'medium' ? 'badge-medium' : 'badge-hard'
+                                }">
+                                    ${chapter.difficulty === 'easy' ? '⭐ Facile' :
+                                      chapter.difficulty === 'medium' ? '⭐⭐ Moyen' : '⭐⭐⭐ Difficile'}
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-4 text-sm opacity-70">
+                                <span>📘 Cours</span>
+                                <span>🧪 ${chapter.quiz.length} questions</span>
+                                <span>${state.progress[`${subject.id}-${chapter.id}`] ? '✅ Vu' : '⏳ À faire'}</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function showChapter(subjectId, chapterId) {
+            const subject = subjectsData[subjectId];
+            const chapter = subject.chapters.find(c => c.id === chapterId);
+            if (!chapter) return;
+
+            state.currentChapter = chapter;
+
+            // Mark as viewed
+            state.progress[`${subjectId}-${chapterId}`] = true;
+            saveState();
+
+            const container = document.getElementById('subjectDetailContent');
+            container.innerHTML = `
+                <button onclick="showPage('subject-detail', '${subjectId}')" class="mb-6 flex items-center gap-2 opacity-70 hover:opacity-100 transition">
+                    ← Retour à ${subject.name}
+                </button>
+
+                <div class="glass rounded-2xl p-8 mb-8">
+                    <div class="flex items-start justify-between mb-6">
+                        <div>
+                            <span class="px-3 py-1 rounded-full text-xs text-white ${
+                                chapter.difficulty === 'easy' ? 'badge-easy' :
+                                chapter.difficulty === 'medium' ? 'badge-medium' : 'badge-hard'
+                            } inline-block mb-3">
+                                ${chapter.difficulty === 'easy' ? '⭐ Facile' :
+                                  chapter.difficulty === 'medium' ? '⭐⭐ Moyen' : '⭐⭐⭐ Difficile'}
+                            </span>
+                            <h1 class="text-3xl font-bold">${chapter.title}</h1>
+                        </div>
+                        <button class="favorite-btn text-2xl"
+                                onclick="toggleFavorite('${subjectId}-${chapterId}', this)">
+                            ${state.favorites.includes(`${subjectId}-${chapterId}`) ? '⭐' : '☆'}
+                        </button>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="flex flex-wrap gap-2 mb-8">
+                        <button class="tab-btn active" onclick="showTab('course', this)">📘 Cours</button>
+                        <button class="tab-btn" onclick="showTab('tips', this)">💡 Conseils</button>
+                        <button class="tab-btn" onclick="showTab('quiz', this)">🧪 Quiz</button>
+                    </div>
+
+                    <!-- Course Content -->
+                    <div id="tab-course" class="tab-content">
+                        ${chapter.content}
+                    </div>
+
+                    <!-- Tips Content -->
+                    <div id="tab-tips" class="tab-content hidden">
+                        <h3 class="text-xl font-bold mb-4">💡 Conseils pour ce chapitre</h3>
+                        <ul class="space-y-3">
+                            ${chapter.tips.map(tip => `
+                                <li class="flex items-start gap-3 glass rounded-xl p-4">
+                                    <span class="text-green-500">✓</span>
+                                    <span>${tip}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+
+                    <!-- Quiz Content -->
+                    <div id="tab-quiz" class="tab-content hidden">
+                        <h3 class="text-xl font-bold mb-4">🧪 Teste tes connaissances</h3>
+                        <p class="opacity-70 mb-6">${chapter.quiz.length} questions pour vérifier ta compréhension</p>
+                        <button class="btn-primary" onclick="startQuiz('${subjectId}', '${chapterId}')">
+                            🎮 Commencer le quiz
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showTab(tabName, btn) {
+            // Update buttons
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+        }
+
+        // ============================================
+        // QUIZ SYSTEM
+        // ============================================
+        let quizState = {
+            questions: [],
+            currentQuestion: 0,
+            score: 0,
+            timer: null,
+            timeLeft: 30
+        };
+
+        function startQuiz(subjectId, chapterId) {
+            const subject = subjectsData[subjectId];
+            const chapter = subject.chapters.find(c => c.id === chapterId);
+            
+            quizState.questions = chapter.quiz;
+            quizState.currentQuestion = 0;
+            quizState.score = 0;
+
+            const modal = document.getElementById('quizModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            const q = quizState.questions[quizState.currentQuestion];
+            if (!q) {
+                showQuizResults();
+                return;
+            }
+
+            // Reset timer
+            quizState.timeLeft = 30;
+            clearInterval(quizState.timer);
+            quizState.timer = setInterval(updateTimer, 1000);
+
+            const content = document.getElementById('quizContent');
+            content.innerHTML = `
+                <div class="text-center mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-sm opacity-70">Question ${quizState.currentQuestion + 1}/${quizState.questions.length}</span>
+                        <div class="flex items-center gap-2">
+                            <span id="timerDisplay" class="font-mono font-bold">${quizState.timeLeft}s</span>
+                            <svg width="40" height="40" class="transform -rotate-90">
+                                <circle cx="20" cy="20" r="15" fill="none" stroke="rgba(99,102,241,0.2)" stroke-width="4"/>
+                                <circle id="timerCircle" cx="20" cy="20" r="15" fill="none" stroke="url(#timerGradient)" 
+                                        stroke-width="4" class="timer-circle"/>
+                                <defs>
+                                    <linearGradient id="timerGradient">
+                                        <stop offset="0%" stop-color="#6366f1"/>
+                                        <stop offset="100%" stop-color="#ec4899"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="progress-bar mb-6">
+                        <div class="progress-fill" style="width: ${(quizState.currentQuestion / quizState.questions.length) * 100}%"></div>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold mb-6 text-center">${q.question}</h3>
+
+                <div class="space-y-3" id="quizOptions">
+                    ${q.options.map((opt, i) => `
+                        <button class="quiz-option w-full text-left" onclick="selectAnswer(${i}, ${q.correct})">
+                            <span class="font-bold mr-3">${String.fromCharCode(65 + i)}.</span>
+                            ${opt}
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function updateTimer() {
+            quizState.timeLeft--;
+            document.getElementById('timerDisplay').textContent = quizState.timeLeft + 's';
+            
+            const circle = document.getElementById('timerCircle');
+            const progress = (30 - quizState.timeLeft) / 30;
+            circle.style.strokeDashoffset = 283 * progress;
+
+            if (quizState.timeLeft <= 0) {
+                clearInterval(quizState.timer);
+                selectAnswer(-1, quizState.questions[quizState.currentQuestion].correct);
+            }
+        }
+
+        function selectAnswer(selected, correct) {
+            clearInterval(quizState.timer);
+            
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach((opt, i) => {
+                opt.disabled = true;
+                if (i === correct) {
+                    opt.classList.add('correct');
+                } else if (i === selected && selected !== correct) {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            if (selected === correct) {
+                quizState.score++;
+            }
+
+            setTimeout(() => {
+                quizState.currentQuestion++;
+                renderQuizQuestion();
+            }, 1500);
+        }
+
+        function showQuizResults() {
+            const percentage = Math.round((quizState.score / quizState.questions.length) * 100);
+            const emoji = percentage >= 80 ? '🏆' : percentage >= 60 ? '👍' : percentage >= 40 ? '💪' : '📚';
+            
+            const content = document.getElementById('quizContent');
+            content.innerHTML = `
+                <div class="text-center">
+                    <div class="text-6xl mb-4 animate-bounce-in">${emoji}</div>
+                    <h3 class="text-2xl font-bold mb-2">Quiz terminé !</h3>
+                    <p class="text-5xl font-bold bg-gradient-to-r from-indigo-500 to-pink-500 bg-clip-text text-transparent mb-4">
+                        ${quizState.score}/${quizState.questions.length}
+                    </p>
+                    <p class="opacity-70 mb-6">
+                        ${percentage >= 80 ? 'Excellent ! Tu maîtrises ce chapitre !' :
+                          percentage >= 60 ? 'Bien joué ! Continue comme ça !' :
+                          percentage >= 40 ? 'Pas mal ! Révise encore un peu.' :
+                          'Continue à réviser, tu vas y arriver !'}
+                    </p>
+                    <div class="flex justify-center gap-4">
+                        <button class="btn-secondary" onclick="closeQuiz()">Fermer</button>
+                        <button class="btn-primary" onclick="startQuiz('${state.currentSubject.id}', '${state.currentChapter.id}')">
+                            Recommencer
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function closeQuiz() {
+            clearInterval(quizState.timer);
+            const modal = document.getElementById('quizModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // ============================================
+        // UTILITY FUNCTIONS
+        // ============================================
+        function getSubjectProgress(subjectId) {
+            const subject = subjectsData[subjectId];
+            if (!subject) return 0;
+            
+            const viewed = subject.chapters.filter(ch => 
+                state.progress[`${subjectId}-${ch.id}`]
+            ).length;
+            
+            return Math.round((viewed / subject.chapters.length) * 100);
+        }
+
+        function toggleFavorite(id, btn) {
+            const index = state.favorites.indexOf(id);
+            if (index > -1) {
+                state.favorites.splice(index, 1);
+                btn.classList.remove('active');
+                btn.textContent = '☆';
+            } else {
+                state.favorites.push(id);
+                btn.classList.add('active');
+                btn.textContent = '⭐';
+            }
+            saveState();
+        }
+
+        function addToRecentActivity(name, icon) {
+            const activity = {
+                name,
+                icon,
+                date: new Date().toLocaleDateString('fr-FR'),
+                time: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+            };
+            
+            state.recentActivity = [activity, ...state.recentActivity.slice(0, 9)];
+            saveState();
+        }
+
+        function filterSubjects(category, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            document.querySelectorAll('[data-category]').forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function handleSearch(query) {
+            if (query.length < 2) return;
+            
+            query = query.toLowerCase();
+            const results = [];
+
+            Object.values(subjectsData).forEach(subject => {
+                if (subject.name.toLowerCase().includes(query)) {
+                    results.push({ type: 'subject', data: subject });
+                }
+                subject.chapters.forEach(chapter => {
+                    if (chapter.title.toLowerCase().includes(query)) {
+                        results.push({ type: 'chapter', subject, chapter });
+                    }
+                });
+            });
+
+            // Show results in a simple way
+            if (results.length > 0) {
+                console.log('Résultats:', results);
+            }
+        }
+
+        function renderRevisionPage() {
+            // Render progress overview
+            const progressContainer = document.getElementById('progressOverview');
+            progressContainer.innerHTML = Object.values(subjectsData).map(subject => `
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br ${subject.color} flex items-center justify-center text-xl">
+                        ${subject.icon}
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between mb-1">
+                            <span class="font-medium">${subject.name}</span>
+                            <span class="text-sm">${getSubjectProgress(subject.id)}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${getSubjectProgress(subject.id)}%"></div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Render favorites
+            const favContainer = document.getElementById('favoritesList');
+            if (state.favorites.length > 0) {
+                favContainer.innerHTML = state.favorites.map(fav => {
+                    const subject = subjectsData[fav];
+                    if (subject) {
+                        return `
+                            <div class="glass rounded-xl p-4 flex items-center gap-3 cursor-pointer hover:scale-105 transition"
+                                 onclick="showPage('subject-detail', '${subject.id}')">
+                                <span class="text-2xl">${subject.icon}</span>
+                                <span class="font-medium">${subject.name}</span>
+                            </div>
+                        `;
+                    }
+                    return '';
+                }).join('');
+            }
+
+            // Render recent activity
+            const activityContainer = document.getElementById('recentActivity');
+            if (state.recentActivity.length > 0) {
+                activityContainer.innerHTML = state.recentActivity.map(act => `
+                    <div class="flex items-center gap-4 glass rounded-xl p-4">
+                        <span class="text-2xl">${act.icon}</span>
+                        <div class="flex-1">
+                            <div class="font-medium">${act.name}</div>
+                            <div class="text-sm opacity-70">${act.date} à ${act.time}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadState();
+            renderSubjectsPreview();
+
+            // Navigation links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = link.dataset.page;
+                    if (page) showPage(page);
+                });
+            });
+
+            // Theme toggle
+            document.getElementById('themeToggle').addEventListener('click', () => {
+                state.darkMode = !state.darkMode;
+                document.body.classList.toggle('dark');
+                document.getElementById('sunIcon').classList.toggle('hidden');
+                document.getElementById('moonIcon').classList.toggle('hidden');
+                saveState();
+            });
+
+            // Mobile menu
+            document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+                document.getElementById('mobileMenu').classList.add('open');
+            });
+
+            // Header scroll effect
+            window.addEventListener('scroll', () => {
+                const header = document.querySelector('header');
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+
+                // Reveal animations
+                document.querySelectorAll('.reveal').forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight - 100) {
+                        el.classList.add('visible');
+                    }
+                });
+            });
+
+            // Counter animation
+            const counters = document.querySelectorAll('.counter');
+            const animateCounters = () => {
+                counters.forEach(counter => {
+                    const target = parseInt(counter.dataset.target);
+                    const current = parseInt(counter.textContent);
+                    if (current < target) {
+                        counter.textContent = Math.min(current + Math.ceil(target / 50), target);
+                        setTimeout(animateCounters, 30);
+                    }
+                });
+            };
+
+            // Start counter animation when visible
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounters();
+                        observer.disconnect();
+                    }
+                });
+            });
+
+            if (counters.length > 0) {
+                observer.observe(counters[0].closest('section'));
+            }
+        });
+
+        function closeMobileMenu() {
+            document.getElementById('mobileMenu').classList.remove('open');
+        }
+    </script>
+</body>
+</html>
